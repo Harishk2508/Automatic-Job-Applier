@@ -323,6 +323,9 @@ class ResumeTailor:
                 topMargin=5*mm,   bottomMargin=4*mm,
             )
 
+            SECTION_GAP    = 14   # pt before each section heading — fills the blank space
+            INTER_PROJ_GAP = 5    # pt between projects
+
             def S(n, **kw):
                 return ParagraphStyle(n, **kw)
 
@@ -334,14 +337,14 @@ class ResumeTailor:
             link_s    = S("Lk", fontSize=7.2, fontName="Helvetica",         textColor=BLUE,  leading=10, spaceAfter=0, spaceBefore=0, alignment=TA_CENTER)
 
             # Section & body styles — generous but controlled
-            sec_s     = S("Se", fontSize=9,   fontName="Helvetica-Bold",    textColor=BLUE,  leading=11, spaceBefore=5, spaceAfter=1.5)
-            body_s    = S("Bo", fontSize=7.8, fontName="Helvetica",         textColor=DARK,  leading=10.5, spaceAfter=1.5)
-            bul_s     = S("Bu", fontSize=7.5, fontName="Helvetica",         textColor=DARK,  leading=10.2, leftIndent=8, spaceAfter=1.5)
-            bold_s    = S("Bl", fontSize=8,   fontName="Helvetica-Bold",    textColor=DARK,  leading=10.5, spaceAfter=0.5)
-            ital_s    = S("It", fontSize=7.5, fontName="Helvetica-Oblique", textColor=BLUE,  leading=10, spaceAfter=0.5)
-            rt_s      = S("Rt", fontSize=7.5, fontName="Helvetica-Oblique", textColor=LIGHT, leading=10.5, alignment=TA_RIGHT)
-            skill_cat = S("Sc", fontSize=7.5, fontName="Helvetica",         textColor=DARK,  leading=10.5, spaceAfter=1)
-            ach_s     = S("Ac", fontSize=7.5, fontName="Helvetica",         textColor=DARK,  leading=10.2, leftIndent=8, spaceAfter=1.5)
+            sec_s     = S("Se", fontSize=8.5, fontName="Helvetica-Bold",    textColor=BLUE,  leading=11,   spaceBefore=0,  spaceAfter=2)
+            body_s    = S("Bo", fontSize=8,   fontName="Helvetica",         textColor=DARK,  leading=11,   spaceAfter=2)
+            bul_s     = S("Bu", fontSize=8,   fontName="Helvetica",         textColor=DARK,  leading=11,   leftIndent=8,   spaceAfter=2)
+            bold_s    = S("Bl", fontSize=8,   fontName="Helvetica-Bold",    textColor=DARK,  leading=10,   spaceAfter=0.5)
+            ital_s    = S("It", fontSize=7.8, fontName="Helvetica-Oblique", textColor=BLUE,  leading=10,   spaceAfter=1)
+            rt_s      = S("Rt", fontSize=7.8, fontName="Helvetica-Oblique", textColor=LIGHT, leading=10,   alignment=TA_RIGHT)
+            skill_cat = S("Sc", fontSize=8,   fontName="Helvetica",         textColor=DARK,  leading=11,   spaceAfter=1.5)
+            ach_s     = S("Ac", fontSize=8,   fontName="Helvetica",         textColor=DARK,  leading=11,   leftIndent=8,   spaceAfter=2)
 
             def two_col(lp, rp):
                 t = Table([[lp, rp]], colWidths=["72%", "28%"])
@@ -355,8 +358,9 @@ class ResumeTailor:
                 return t
 
             def section(heading):
+                story.append(Spacer(1, SECTION_GAP))
                 story.append(Paragraph(heading, sec_s))
-                story.append(HRFlowable(width="100%", thickness=0.5, color=BLUE, spaceAfter=2))
+                story.append(HRFlowable(width="100%", thickness=0.6, color=BLUE, spaceAfter=2))
 
             h    = self.base_resume["header"]
             edu  = self.base_resume["education"]
@@ -431,7 +435,8 @@ class ResumeTailor:
                         story.append(Paragraph(tech, ital_s))
                     for b in proj.get("bullets", [])[:3]:
                         story.append(Paragraph(f"&#9658; {b}", bul_s))
-                    story.append(Spacer(1, 2))
+                    if proj != projs[-1]:           # not the last project
+                        story.append(Spacer(1, INTER_PROJ_GAP))
 
             # ── EDUCATION ─────────────────────────────────────────────────
             section("EDUCATION")
@@ -515,13 +520,14 @@ class ResumeTailor:
                 "match_score": tailored.get("match_score", base_match),
                 "ats_keywords": tailored.get("ats_keywords_used", [])}
 
-    def run(self, jobs):
-        """Sequential processing to avoid parallel 429 rate-limit storms."""
-        logger.info(f"=== Resume Tailor (Gemini sequential) Starting: {len(jobs)} jobs ===")
+    def run(self, jobs, batch_number=1, output_queue=None):
+        """Sequential processing. If output_queue provided, pushes each result
+        immediately after PDF save for parallel application."""
+        logger.info(f"=== Resume Tailor | Batch {batch_number} | {len(jobs)} jobs ===")
         results = []
 
         for i, job in enumerate(jobs):
-            title = job.get("title", "Role")
+            title   = job.get("title", "Role")
             company = job.get("company", "Unknown")
             logger.info(f"[{i+1}/{len(jobs)}] {title} @ {company}")
 
@@ -529,14 +535,19 @@ class ResumeTailor:
                 r = self.process_job(job)
                 if r:
                     results.append(r)
+                    if output_queue is not None:
+                        output_queue.put(r)       # apply thread picks this up immediately
             except Exception as e:
                 logger.error(f"Error processing {title} @ {company}: {e}", exc_info=True)
 
-            # Small delay between jobs to be respectful
             if i < len(jobs) - 1:
                 time.sleep(2)
 
-        tailored_count = sum(1 for r in results if r["status"] == "tailored")
-        reused_count = sum(1 for r in results if r["status"] == "reused")
+        # Sentinel: tells apply_worker thread in app.py to stop waiting
+        if output_queue is not None:
+            output_queue.put(None)
+
+        tailored_count = sum(1 for r in results if r.get("status") == "tailored")
+        reused_count   = sum(1 for r in results if r.get("status") == "reused")
         logger.info(f"Done: {tailored_count} tailored, {reused_count} reused")
         return results
