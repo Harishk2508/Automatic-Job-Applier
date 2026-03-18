@@ -1,0 +1,37 @@
+{
+  "batch_number": 3,
+  "total_batches": 3,
+  "job_count": 3,
+  "jobs": [
+    {
+      "platform": "Internshala",
+      "title": "Football Live Performance Analyst",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-football-live-performance-analyst-job-at-ball2data1773723542",
+      "scraped_at": "2026-03-18T10:26:02.369478",
+      "search_role": "data scientist"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Football Tagger - Supervisor",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-football-tagger-supervisor-job-at-ball2data1773723072",
+      "scraped_at": "2026-03-18T10:26:02.799828",
+      "search_role": "data scientist"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Java Full Stack Developer",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/java-full-stack-developer-job-in-bangalore-at-aliqan-technologies1770683410",
+      "scraped_at": "2026-03-18T10:25:19.837334",
+      "search_role": "software engineer"
+    }
+  ]
+}

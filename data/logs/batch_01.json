@@ -1,0 +1,207 @@
+{
+  "batch_number": 1,
+  "total_batches": 3,
+  "job_count": 20,
+  "jobs": [
+    {
+      "platform": "Indeed",
+      "title": "Python Developer (Backend)",
+      "company": "SecureKloud",
+      "location": "Chennai, Tamil Nadu",
+      "salary": "Not disclosed",
+      "url": "https://in.indeed.com/rc/clk?jk=8c137d73fdf8cd1f&bb=UoA4hrwkmL45Z-30SwR21J_-toE2W1Xw15IxsmBtWTZipE6xASvGa4gVq58HJ2zw4k5AD8ps9OoAoHMSdXwEf3TvnHBCRItTPDz4ZE3DfoAGMxgDb2QoWIbsCwN83DAH&xkcb=SoCm67M3m_hGtXTNc50LbzkdCdPP&fccid=66426e064aa924b1&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.001090",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Indeed",
+      "title": "Python - Django Developer",
+      "company": "Ninos IT Solution",
+      "location": "Vadapalani, Chennai, Tamil Nadu",
+      "salary": "\u20b918,000 - \u20b930,000 a month",
+      "url": "https://in.indeed.com/rc/clk?jk=d8da5fa06697b469&bb=UoA4hrwkmL45Z-30SwR21FEm2xx7xddc5co82RmDXq2QzNthUzntBcAExehjCyWUzHQ9408aRjMrgseDrEXVrHOO-mT82Jy-s52wERBxxOPfoviWJ4CNFqAIv1KgiCuH&xkcb=SoAS67M3m_hGtXTNc50KbzkdCdPP&fccid=1917ee036693857d&cmp=Ecphasis-InFotech-Pvt-Ltd&ti=Python+Developer&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.114118",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Data Scientist & AI Engineer",
+      "company": "Unknown",
+      "location": "Chennai",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/data-scientist-ai-engineer-job-in-chennai-at-l-t-technology-services1773793965",
+      "scraped_at": "2026-03-18T10:24:45.162346",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Senior Data Scientist GenAI, LLM",
+      "company": "Unknown",
+      "location": "Chennai",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/senior-data-scientist-genai-llm-job-in-multiple-locations-at-colan-infotech-private-limited1769128210",
+      "scraped_at": "2026-03-18T10:25:22.555397",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Indeed",
+      "title": "Python Full Stack Developer",
+      "company": "Policynation",
+      "location": "Chennai, Tamil Nadu",
+      "salary": "Up to \u20b99,00,000 a year",
+      "url": "https://in.indeed.com/rc/clk?jk=194ba8c90704db4b&bb=UoA4hrwkmL45Z-30SwR21HJiuXquYU1YhENIQnasCII3sDlPOtQar07u3fWsqYhNjceeaVVZ7p2AovmJiiBTrOojck6Yg_4P3G-EIuUnS287L6PL8uWg_tve2tMkuU8L&xkcb=SoCP67M3m_hGtXTNc50JbzkdCdPP&fccid=1c93111156749d53&cmp=Policynation&ti=Full+Stack+Developer&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.247337",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Indeed",
+      "title": "Senior Python Developer",
+      "company": "SecureKloud",
+      "location": "Chennai, Tamil Nadu",
+      "salary": "Not disclosed",
+      "url": "https://in.indeed.com/rc/clk?jk=691fce91539043b0&bb=UoA4hrwkmL45Z-30SwR21IpSMmDpLBQxYF9xihboqLuk9fVJUQQOMTU-7ER99XXMQ1twXmdESAcjddtb5QUvBptueWVj0UJI0QO84FMtvyq0MSLiE8xRRp_2VyU-AzAb&xkcb=SoA767M3m_hGtXTNc50IbzkdCdPP&fccid=66426e064aa924b1&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.349601",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Indeed",
+      "title": "Software Engineer -Snowflake, Python, Control-M, AWS",
+      "company": "SRS Infoway",
+      "location": "Chennai, Tamil Nadu",
+      "salary": "\u20b920,00,000 - \u20b923,00,000 a year",
+      "url": "https://in.indeed.com/rc/clk?jk=5f6900c185af9695&bb=UoA4hrwkmL45Z-30SwR21CJhTtpwUcT7rR-jbh6PING4aSy9cRK3tYL_lUqN5Fp6XsP-OxYPcroxGHw-D1cuSBGTKnBS4roIrwgAN-2mOXUateKj_asswtXd3GDGM2t4&xkcb=SoC167M3m_hGtXTNc50PbzkdCdPP&fccid=973e5e7cb5f0e2d3&cmp=SRS-Infoway&ti=Software+Engineer&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.423536",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Indeed",
+      "title": "Python Full Stack Developer",
+      "company": "SRS Infoway",
+      "location": "Chennai, Tamil Nadu",
+      "salary": "\u20b920,00,000 - \u20b923,00,000 a year",
+      "url": "https://in.indeed.com/rc/clk?jk=3bbd87c685acf41e&bb=UoA4hrwkmL45Z-30SwR21CH6FUEgoncwzjvUTI5NQAEf0GkgOh7-pimB3a7Vkr55eFYOHsExvAKjGMFgA3UOVOcwy6ccTPKa5Jgcxqxn0MF1nk_q5BThVqv0b-jQ2Yow&xkcb=SoAB67M3m_hGtXTNc50ObzkdCdPP&fccid=973e5e7cb5f0e2d3&cmp=SRS-Infoway&ti=Full+Stack+Developer&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.515916",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Indeed",
+      "title": "Junior Python Developer",
+      "company": "Luxoft",
+      "location": "Chennai, Tamil Nadu",
+      "salary": "Not disclosed",
+      "url": "https://in.indeed.com/rc/clk?jk=f594f20399ad3668&bb=UoA4hrwkmL45Z-30SwR21JhD7YtPJ3IkfpeeGkgOTrvKG_kL9soCu3X-nS9ERYO5-eHeCMCr6KzyoXI_J2G8JjQRI3s2tykdeuDjFNH8KYZCXqcCgKFDSEa81Rr9QyFf&xkcb=SoAo67M3m_hGtXTNc50MbzkdCdPP&fccid=4b841d912d46e4fd&vjs=3",
+      "scraped_at": "2026-03-18T10:22:00.774956",
+      "search_role": "python developer fresher"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Python Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-remote-python-developer-job-at-aivoa1772774588",
+      "scraped_at": "2026-03-18T10:24:32.900027",
+      "search_role": "python developer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "AI Engineer",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/ai-engineer-job-in-bangalore-at-es-magico1773793893",
+      "scraped_at": "2026-03-18T10:24:44.570364",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "AI/ML Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-ai-ml-developer-job-at-aaptatt1773728589",
+      "scraped_at": "2026-03-18T10:24:47.929031",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "AI Agent Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-remote-ai-agent-developer-job-at-software-lab1773491318",
+      "scraped_at": "2026-03-18T10:24:49.686425",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Senior Python Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-senior-python-developer-job-at-primetradeai1773287912",
+      "scraped_at": "2026-03-18T10:24:50.826259",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Applied AI Engineer \u2013 Computer Vision",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-applied-ai-engineer--computer-vision-job-at-stealth-mode-startup1772711415",
+      "scraped_at": "2026-03-18T10:24:52.456016",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Backend Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-backend-developer-job-at-solutions-bajaj1771396583",
+      "scraped_at": "2026-03-18T10:25:06.967258",
+      "search_role": "backend developer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Software Developer - Backend",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-software-developer-backend-job-in-bangalore-at-shipthis-inc1769301022",
+      "scraped_at": "2026-03-18T10:25:24.537236",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Artificial Intelligence (AI) Associate",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-remote-part-time-artificial-intelligence-ai-associate-job-at-cattleguru-private-limited1773646787",
+      "scraped_at": "2026-03-18T10:24:48.920088",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Artificial Intelligence (AI) Specialist",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-artificial-intelligence-ai-specialist-job-at-bryckel-ai1773309672",
+      "scraped_at": "2026-03-18T10:24:50.576530",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Junior Machine Learning Associate",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/junior-machine-learning-associate-job-in-bangalore-at-testaing-solutions1772434069",
+      "scraped_at": "2026-03-18T10:24:54.273187",
+      "search_role": "machine learning engineer"
+    }
+  ]
+}

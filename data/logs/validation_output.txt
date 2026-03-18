@@ -1,0 +1,21 @@
+=== File Size Comparison ===
+  Old: Unknown_20260317.pdf -> 5650 bytes
+  Old: Unknown_20260317_1.pdf -> 5679 bytes
+  Old: Unknown_20260317_10.pdf -> 5647 bytes
+  New: TEST_layout_check.pdf -> 6469 bytes
+  Increase: ~14.4%
+
+=== Base Resume Validation ===
+  Experience entries: 1 (should be 1)
+  Experience company: ZeAI Soft
+  Experience bullets: 5 (should be 5)
+  Project entries: 3 (should be 3)
+    - Indian PII Detection and Redaction Web App: 3 bullets
+    - Real-Time Multiplayer Yoga Pose Analyzer: 3 bullets
+    - Medical AI Chat System – LLM Fine-Tuning: 3 bullets
+  Achievements: 3
+  Header email: harishknlpengineer25@gmail.com
+
+=== Module Check ===
+  ATS Keywords count: 80
+  All checks PASSED

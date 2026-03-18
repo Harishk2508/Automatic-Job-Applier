@@ -1,0 +1,30 @@
+{
+  "old_sizes": {
+    "Unknown_20260317.pdf": 5650,
+    "Unknown_20260317_1.pdf": 5679,
+    "Unknown_20260317_10.pdf": 5647
+  },
+  "new_size": 6469,
+  "experience_count": 1,
+  "experience_company": "ZeAI Soft",
+  "experience_bullets": 5,
+  "project_count": 3,
+  "projects": [
+    {
+      "name": "Indian PII Detection and Redaction Web App",
+      "bullets": 3
+    },
+    {
+      "name": "Real-Time Multiplayer Yoga Pose Analyzer",
+      "bullets": 3
+    },
+    {
+      "name": "Medical AI Chat System \u2013 LLM Fine-Tuning",
+      "bullets": 3
+    }
+  ],
+  "achievements": 3,
+  "email": "harishknlpengineer25@gmail.com",
+  "ats_keywords": 80,
+  "status": "ALL PASSED"
+}

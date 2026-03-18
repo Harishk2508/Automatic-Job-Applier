@@ -1,0 +1,8 @@
+pip install "playwright>=1.44.0"
+pip install "groq>=0.9.0"
+pip install "reportlab>=4.2.2"
+pip install "flask>=3.0.2"
+pip install "flask-cors>=4.0.0"
+pip install "APScheduler>=3.10.4"
+pip install "python-dotenv>=1.0.1"
+pip install "beautifulsoup4>=4.12.3"

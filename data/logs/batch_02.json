@@ -1,0 +1,207 @@
+{
+  "batch_number": 2,
+  "total_batches": 3,
+  "job_count": 20,
+  "jobs": [
+    {
+      "platform": "Internshala",
+      "title": "Junior Data Scientist",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-remote-junior-data-scientist-job-at-trivora-systems1772804471",
+      "scraped_at": "2026-03-18T10:24:51.346751",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Data Scientist",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-data-scientist-job-at-scientific-games1772532521",
+      "scraped_at": "2026-03-18T10:24:53.081042",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Computer Vision Engineer",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-computer-vision-engineer-job-in-bangalore-at-technoculture-research1773658907",
+      "scraped_at": "2026-03-18T10:24:48.237252",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Software Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-part-time-software-developer-job-at-amit-singh1772131751",
+      "scraped_at": "2026-03-18T10:24:55.597429",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Software Engineer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-software-engineer-job-at-pls-pte-ltd1766795421",
+      "scraped_at": "2026-03-18T10:25:19.129817",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Chatbot Developer",
+      "company": "Unknown",
+      "location": "Chennai",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/chatbot-developer-job-in-chennai-at-twixor1770337814",
+      "scraped_at": "2026-03-18T10:25:20.500459",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Data Engineer",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/data-engineer-job-in-bangalore-at-colan-infotech-private-limited1769301009",
+      "scraped_at": "2026-03-18T10:25:23.652797",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Front End Developer",
+      "company": "Unknown",
+      "location": "Chennai",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/front-end-developer-job-in-chennai-at-aerocare-air-ambulance-service1771230795",
+      "scraped_at": "2026-03-18T10:25:28.129229",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Senior Grafana Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-senior-grafana-developer-job-at-aaptatt1773728479",
+      "scraped_at": "2026-03-18T10:26:02.696723",
+      "search_role": "data scientist"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Full Stack Developer",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-remote-full-stack-developer-job-at-nova-technology1773737387",
+      "scraped_at": "2026-03-18T10:26:16.322075",
+      "search_role": "full stack developer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Senior Credit Risk Modeling",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/senior-credit-risk-modeling-job-in-bangalore-at-exl1773794034",
+      "scraped_at": "2026-03-18T10:24:45.498714",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Data Analytics Executive",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-remote-data-analytics-executive-job-at-vindiata-consulting-private-limited1772447605",
+      "scraped_at": "2026-03-18T10:24:53.613860",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Computer Vision Associate",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/computer-vision-associate-job-in-bangalore-at-unmannd-autonomy1772265986",
+      "scraped_at": "2026-03-18T10:24:54.840189",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Academic Counselor",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/fresher-academic-counselor-job-in-bangalore-at-acceleratorx1772189897",
+      "scraped_at": "2026-03-18T10:24:55.105104",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Generative Engine Optimization Specialist",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-part-time-generative-engine-optimization-specialist-job-at-invictus-global-tech1771926921",
+      "scraped_at": "2026-03-18T10:24:57.320693",
+      "search_role": "machine learning engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Data & Automation Analyst (AWS & Cloud Data)",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-data-automation-analyst-aws-cloud-data-job-at-times-music1769214746",
+      "scraped_at": "2026-03-18T10:25:23.062877",
+      "search_role": "software engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Video Editor",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/video-editor-job-in-bangalore-at-iron-lady1773403569",
+      "scraped_at": "2026-03-18T10:25:41.223148",
+      "search_role": "AI engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Executive Assistant",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/executive-assistant-job-in-bangalore-at-technoculture-research1771668636",
+      "scraped_at": "2026-03-18T10:25:42.772227",
+      "search_role": "AI engineer"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Technical Financial Analyst",
+      "company": "Unknown",
+      "location": "Bangalore",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/technical-financial-analyst-job-in-bangalore-at-trade-brains1773742052",
+      "scraped_at": "2026-03-18T10:26:01.051092",
+      "search_role": "data scientist"
+    },
+    {
+      "platform": "Internshala",
+      "title": "Football Analyst - Supervisor",
+      "company": "Unknown",
+      "location": "Work from home",
+      "salary": "Not disclosed",
+      "url": "https://internshala.com/job/detail/remote-football-analyst-supervisor-job-at-ball2data1773723494",
+      "scraped_at": "2026-03-18T10:26:02.275949",
+      "search_role": "data scientist"
+    }
+  ]
+}

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobBot — Harish K</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070a10;--s1:#0d1117;--s2:#161b22;--s3:#21262d;
+    --border:#30363d;--accent:#2f81f7;--a2:#79c0ff;
+    --green:#3fb950;--red:#f85149;--yellow:#d29922;--purple:#bc8cff;--orange:#f97316;
+    --text:#e6edf3;--muted:#8b949e;
+    --mono:'JetBrains Mono',monospace;--sans:'Plus Jakarta Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;}
+  a{text-decoration:none;}
+
+  /* Sidebar */
+  .sidebar{width:215px;min-height:100vh;background:var(--s1);border-right:1px solid var(--border);padding:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+  .logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);}
+  .logo-tag{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:5px;}
+  .logo-name{font-size:16px;font-weight:700;letter-spacing:-.3px;}
+  .logo-sub{font-size:10.5px;color:var(--muted);margin-top:1px;}
+  nav{padding:10px 0;flex:1;overflow-y:auto;}
+  .nav-section{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:12px 18px 4px;opacity:.6;}
+  .nav-item{display:flex;align-items:center;gap:9px;padding:8px 18px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;transition:all .15s;border-left:2px solid transparent;}
+  .nav-item:hover{color:var(--text);background:rgba(255,255,255,.04);}
+  .nav-item.active{color:var(--a2);border-left-color:var(--accent);background:rgba(47,129,247,.07);}
+  .nav-item .icon{font-size:14px;width:16px;text-align:center;flex-shrink:0;}
+  .nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;font-family:var(--mono);}
+  .sidebar-footer{padding:14px 18px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);font-family:var(--mono);}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;}
+  .dot.idle{background:var(--muted);}
+  .dot.cooldown{background:var(--yellow);}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .dot.running{background:var(--green);animation:pulse 1.2s infinite;}
+
+  /* Main */
+  .main{margin-left:215px;flex:1;padding:28px 32px;max-width:calc(100vw - 215px);}
+  .page{display:none;}.page.active{display:block;}
+  .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+  .page-title{font-size:20px;font-weight:700;letter-spacing:-.4px;}
+  .page-sub{font-size:12.5px;color:var(--muted);margin-top:2px;}
+
+  /* Cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px;}
+  .card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color .2s;cursor:default;}
+  .card:hover{border-color:var(--accent);}
+  .card-label{font-size:10px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+  .card-val{font-size:28px;font-weight:700;font-family:var(--mono);line-height:1;}
+  .card-val.blue{color:var(--a2);}.card-val.green{color:var(--green);}
+  .card-val.red{color:var(--red);}.card-val.yellow{color:var(--yellow);}
+  .card-val.purple{color:var(--purple);}.card-val.orange{color:var(--orange);}
+  .card-hint{font-size:10.5px;color:var(--muted);margin-top:5px;}
+
+  /* Buttons */
+  .btn{padding:7px 16px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:var(--sans);}
+  .btn-primary{background:var(--accent);color:#fff;}.btn-primary:hover{background:#1a6fd4;transform:translateY(-1px);}
+  .btn-secondary{background:var(--s2);color:var(--text);border:1px solid var(--border);}.btn-secondary:hover{background:var(--s3);}
+  .btn-danger{background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.3);}.btn-danger:hover{background:rgba(248,81,73,.25);}
+  .btn-sm{padding:4px 11px;font-size:11px;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+
+  /* Box */
+  .box{background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px;}
+  .box-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .box-title{font-size:13.5px;font-weight:600;}
+
+  /* Tables */
+  table{width:100%;border-collapse:collapse;}
+  th{font-size:10px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.7px;padding:9px 16px;text-align:left;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);}
+  td{padding:10px 16px;font-size:12.5px;border-bottom:1px solid rgba(48,54,61,.5);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:rgba(255,255,255,.025);}
+
+  /* Badges */
+  .badge{padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--mono);}
+  .b-green{background:rgba(63,185,80,.12);color:var(--green);}
+  .b-red{background:rgba(248,81,73,.12);color:var(--red);}
+  .b-yellow{background:rgba(210,153,34,.12);color:var(--yellow);}
+  .b-blue{background:rgba(47,129,247,.12);color:var(--a2);}
+  .b-purple{background:rgba(188,140,255,.12);color:var(--purple);}
+  .b-orange{background:rgba(249,115,22,.12);color:var(--orange);}
+  .b-gray{background:rgba(139,148,158,.12);color:var(--muted);}
+
+  .pf-badge{padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;font-family:var(--mono);}
+  .pf-naukri{background:rgba(94,177,100,.15);color:#7ee787;}
+  .pf-linkedin{background:rgba(10,102,194,.2);color:#79c0ff;}
+  .pf-indeed{background:rgba(37,99,235,.15);color:#93c5fd;}
+  .pf-wellfound{background:rgba(249,115,22,.15);color:#fca172;}
+  .pf-internshala{background:rgba(139,92,246,.15);color:#c4b5fd;}
+  .pf-remotive{background:rgba(34,197,94,.15);color:#86efac;}
+
+  /* Filters */
+  .filter-btn{padding:3px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--sans);transition:all .15s;}
+  .filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .filters{display:flex;gap:7px;flex-wrap:wrap;}
+
+  /* Score bar */
+  .score-row{display:flex;align-items:center;gap:7px;}
+  .score-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+  .score-fill{height:100%;border-radius:2px;}
+  .score-val{font-family:var(--mono);font-size:10.5px;color:var(--muted);width:32px;flex-shrink:0;}
+
+  /* Pipeline block */
+  .pipeline-bar{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:24px;}
+  .pb-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .pb-title{font-size:14px;font-weight:600;margin-bottom:3px;}
+  .pb-sub{font-size:12px;color:var(--muted);}
+  .stage-steps{display:flex;gap:0;margin-bottom:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .stage-step{flex:1;padding:7px 4px;text-align:center;font-size:10px;font-family:var(--mono);color:var(--muted);background:var(--s2);border-right:1px solid var(--border);transition:all .3s;}
+  .stage-step:last-child{border-right:none;}
+  .stage-step.active{background:rgba(47,129,247,.15);color:var(--a2);}
+  .stage-step.done{background:rgba(63,185,80,.1);color:var(--green);}
+  .stage-step.cooldown{background:rgba(210,153,34,.1);color:var(--yellow);}
+  .progress{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:8px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--purple));border-radius:3px;transition:width .6s ease;}
+  .batch-info{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:6px;}
+
+  /* KB */
+  .kb-box{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;}
+  .kb-title{font-size:11px;font-family:var(--mono);color:var(--a2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;}
+  .kb-row{display:grid;grid-template-columns:200px 1fr;gap:10px;align-items:start;margin-bottom:8px;}
+  .kb-key{font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:7px;}
+  .kb-input{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:6px 11px;color:var(--text);font-size:12.5px;font-family:var(--sans);width:100%;transition:border-color .15s;}
+  .kb-input:focus{outline:none;border-color:var(--accent);}
+
+  /* Chips */
+  .chip{padding:2px 8px;border-radius:20px;font-size:10px;background:rgba(47,129,247,.1);color:var(--a2);border:1px solid rgba(47,129,247,.2);font-family:var(--mono);display:inline-block;margin:2px;}
+
+  /* Empty state */
+  .empty{text-align:center;padding:50px 20px;color:var(--muted);}
+  .empty-icon{font-size:36px;margin-bottom:10px;}
+  .empty-text{font-size:13px;}
+
+  /* Modal */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;}
+  .modal-bg.open{display:flex;}
+  .modal{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:24px;min-width:340px;max-width:480px;width:90%;}
+  .modal-title{font-size:15px;font-weight:700;margin-bottom:16px;}
+  .modal-row{margin-bottom:12px;}
+  .modal-label{font-size:11px;font-family:var(--mono);color:var(--muted);margin-bottom:4px;}
+  .modal-input{background:var(--s3);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);font-size:13px;width:100%;}
+  .modal-input:focus{outline:none;border-color:var(--accent);}
+  select.modal-input{cursor:pointer;}
+  .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;}
+
+  /* Interview tracker row */
+  .resp-select{background:var(--s3);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--text);font-size:11px;cursor:pointer;font-family:var(--mono);}
+  .resp-select:focus{outline:none;border-color:var(--accent);}
+
+  /* Failure images */
+  .fail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:16px;}
+  .fail-card{background:var(--s2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .fail-card img{width:100%;display:block;max-height:150px;object-fit:cover;}
+  .fail-card-info{padding:8px 10px;font-size:11px;color:var(--muted);font-family:var(--mono);}
+
+  /* Batch pills */
+  .batch-pills{display:flex;gap:6px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--border);}
+  .batch-pill{padding:3px 12px;border-radius:20px;font-size:11px;font-family:var(--mono);cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .15s;}
+  .batch-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  /* Misc */
+  ::-webkit-scrollbar{width:4px;height:4px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr;}.kb-row{grid-template-columns:1fr;}.main{padding:16px;}}
+
+  /* Run modal options */
+  .opt-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
+  .opt-label{font-size:12px;color:var(--muted);font-family:var(--mono);width:160px;flex-shrink:0;}
+  .opt-input{background:var(--s3);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:13px;width:100%;}
+  .opt-input:focus{outline:none;border-color:var(--accent);}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-tag">JobBot v3.0</div>
+    <div class="logo-name">Harish K</div>
+    <div class="logo-sub">Agentic Job Pipeline</div>
+  </div>
+  <nav>
+    <div class="nav-section">Overview</div>
+    <div class="nav-item active" onclick="goto('dashboard')"><span class="icon">◈</span>Dashboard</div>
+    <div class="nav-item" onclick="goto('applications')"><span class="icon">✦</span>Applications</div>
+    <div class="nav-item" onclick="goto('interviews')"><span class="icon">📞</span>Interview Tracker <span class="nav-badge" id="nb-interviews">0</span></div>
+    <div class="nav-section">Pipeline</div>
+    <div class="nav-item" onclick="goto('jobs')"><span class="icon">◉</span>Scraped Jobs</div>
+    <div class="nav-item" onclick="goto('batches')"><span class="icon">⊞</span>Batches</div>
+    <div class="nav-item" onclick="goto('resumes')"><span class="icon">◧</span>Resumes</div>
+    <div class="nav-item" onclick="goto('failures')"><span class="icon">⚠</span>Failures</div>
+    <div class="nav-section">Config</div>
+    <div class="nav-item" onclick="goto('kb')"><span class="icon">◈</span>Knowledge Base</div>
+    <div class="nav-item" onclick="goto('logs')"><span class="icon">▣</span>Run Logs</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div style="margin-bottom:5px;"><span class="dot idle" id="gdot"></span><span id="gstatus">Idle</span></div>
+    <div style="opacity:.6;font-size:10px;">harishknlpengineer25<br>@gmail.com</div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <!-- ── DASHBOARD ─────────────────────────────────────────────────────── -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <div><div class="page-title">Dashboard</div><div class="page-sub">Gemini + Groq + Playwright | Batch processing: 20 jobs → cooldown → next 20</div></div>
+      <div class="btns">
+        <button class="btn btn-secondary" onclick="runPipeline(true)">🔍 Dry Run</button>
+        <button class="btn btn-primary"   id="runbtn" onclick="openRunModal()">▶ Run Pipeline</button>
+        <button class="btn btn-danger btn-sm" id="stopbtn" onclick="stopPipeline()" style="display:none">⏹ Stop</button>
+      </div>
+    </div>
+
+    <!-- Stats cards -->
+    <div class="cards">
+      <div class="card"><div class="card-label">Scraped</div><div class="card-val blue"   id="s-scraped">—</div><div class="card-hint">Jobs found</div></div>
+      <div class="card"><div class="card-label">Resumes</div><div class="card-val"        id="s-resumes">—</div><div class="card-hint">Tailored PDFs</div></div>
+      <div class="card"><div class="card-label">Applied</div><div class="card-val green"  id="s-applied">—</div><div class="card-hint">Submitted</div></div>
+      <div class="card"><div class="card-label">Failed</div><div class="card-val red"     id="s-failed">—</div><div class="card-hint">Need manual</div></div>
+      <div class="card"><div class="card-label">Interviews</div><div class="card-val purple" id="s-interviews">—</div><div class="card-hint">Calls received</div></div>
+      <div class="card"><div class="card-label">Skipped</div><div class="card-val yellow" id="s-skipped">—</div><div class="card-hint">Duplicates</div></div>
+    </div>
+
+    <!-- Pipeline status bar -->
+    <div class="pipeline-bar">
+      <div class="pb-top">
+        <div>
+          <div class="pb-title" id="pb-title">Pipeline Ready</div>
+          <div class="pb-sub"   id="pb-sub">Gemini tailors resumes → Playwright applies → Email report sent</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="refreshStatus()">↻ Refresh</button>
+      </div>
+      <div class="stage-steps">
+        <div class="stage-step" id="ss-scraping">1 Scrape</div>
+        <div class="stage-step" id="ss-extracting">2 JDs</div>
+        <div class="stage-step" id="ss-tailoring">3 Tailor</div>
+        <div class="stage-step" id="ss-applying">4 Apply</div>
+        <div class="stage-step" id="ss-cooldown">⏸ Cooldown</div>
+      </div>
+      <div class="progress"><div class="progress-fill" id="pb-prog" style="width:0%"></div></div>
+      <div class="batch-info" id="batch-info"></div>
+    </div>
+
+    <!-- Recent applications table -->
+    <div class="box">
+      <div class="box-header">
+        <div class="box-title">Recent Applications</div>
+        <a href="#" onclick="goto('applications')" style="font-size:11.5px;color:var(--a2);">All →</a>
+      </div>
+      <table>
+        <thead><tr><th>Company</th><th>Role</th><th>Package</th><th>Location</th><th>Platform</th><th>Status</th><th>Time</th></tr></thead>
+        <tbody id="recent-apps"><tr><td colspan="7"><div class="empty"><div class="empty-icon">📭</div><div class="empty-text">No applications yet — run the pipeline!</div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── APPLICATIONS ──────────────────────────────────────────────────── -->
+  <div class="page" id="page-applications">
+    <div class="page-header">
+      <div><div class="page-title">Applications</div><div class="page-sub">Full history — click response to update interview status</div></div>
+      <div class="filters">
+        <button class="filter-btn active" onclick="filterApps('')">All</button>
+        <button class="filter-btn" onclick="filterApps('applied')">Applied</button>
+        <button class="filter-btn" onclick="filterApps('failed')">Failed</button>
+        <button class="filter-btn" onclick="filterApps('skipped_duplicate')">Duplicates</button>
+        <button class="filter-btn" onclick="filterApps('needs_login')">Needs Login</button>
+      </div>
+    </div>
+    <div class="box">
+      <table>
+        <thead><tr><th>Company</th><th>Role</th><th>Package</th><th>Platform</th><th>Status</th><th>Response</th><th>Applied At</th><th>Link</th></tr></thead>
+        <tbody id="all-apps"><tr><td colspan="8"><div class="empty"><div class="empty-icon">📭</div><div class="empty-text">No applications yet</div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── INTERVIEW TRACKER ─────────────────────────────────────────────── -->
+  <div class="page" id="page-interviews">
+    <div class="page-header">
+      <div><div class="page-title">Interview Tracker</div><div class="page-sub">Track which applications led to interview calls</div></div>
+      <button class="btn btn-secondary" onclick="loadInterviews()">↻ Refresh</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="cards" id="interview-stats-cards" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+      <div class="card"><div class="card-label">Total Applied</div><div class="card-val blue"   id="is-applied">—</div></div>
+      <div class="card"><div class="card-label">Interview Calls</div><div class="card-val green"  id="is-interviews">—</div></div>
+      <div class="card"><div class="card-label">Rejections</div><div class="card-val red"     id="is-rejections">—</div></div>
+      <div class="card"><div class="card-label">Pending</div><div class="card-val yellow"  id="is-pending">—</div></div>
+      <div class="card"><div class="card-label">Interview Rate</div><div class="card-val purple"  id="is-rate">—</div></div>
+    </div>
+
+    <!-- Platform breakdown -->
+    <div class="box" id="platform-breakdown-box" style="display:none;">
+      <div class="box-header"><div class="box-title">Response Rate by Platform</div></div>
+      <table>
+        <thead><tr><th>Platform</th><th>Applied</th><th>Interviews</th><th>Rejections</th><th>Interview Rate</th></tr></thead>
+        <tbody id="platform-breakdown"></tbody>
+      </table>
+    </div>
+
+    <!-- All applied with response controls -->
+    <div class="box">
+      <div class="box-header"><div class="box-title">Mark Interview Responses</div><div style="font-size:11.5px;color:var(--muted);">Use the dropdown to log each company's response</div></div>
+      <table>
+        <thead><tr><th>Company</th><th>Role</th><th>Platform</th><th>Applied At</th><th>Response</th></tr></thead>
+        <tbody id="interview-table"><tr><td colspan="5"><div class="empty"><div class="empty-icon">📞</div><div class="empty-text">No applications yet</div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SCRAPED JOBS ───────────────────────────────────────────────────── -->
+  <div class="page" id="page-jobs">
+    <div class="page-header">
+      <div><div class="page-title">Scraped Jobs</div><div class="page-sub" id="jobs-ts">Fresher roles only</div></div>
+      <div class="filters">
+        <button class="filter-btn active" onclick="filterJobs('')">All</button>
+        <button class="filter-btn" onclick="filterJobs('Naukri')">Naukri</button>
+        <button class="filter-btn" onclick="filterJobs('LinkedIn')">LinkedIn</button>
+        <button class="filter-btn" onclick="filterJobs('Indeed')">Indeed</button>
+        <button class="filter-btn" onclick="filterJobs('Internshala')">Internshala</button>
+        <button class="filter-btn" onclick="filterJobs('Wellfound')">Wellfound</button>
+        <button class="filter-btn" onclick="filterJobs('Remotive')">Remotive</button>
+      </div>
+    </div>
+    <div class="box">
+      <table>
+        <thead><tr><th>Title</th><th>Company</th><th>Location</th><th>Package</th><th>Platform</th><th>Link</th></tr></thead>
+        <tbody id="jobs-table"><tr><td colspan="6"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-text">Run pipeline to scrape jobs</div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── BATCHES ────────────────────────────────────────────────────────── -->
+  <div class="page" id="page-batches">
+    <div class="page-header">
+      <div><div class="page-title">Batches</div><div class="page-sub">Each batch of 20 jobs processes independently with cooldown between</div></div>
+      <button class="btn btn-secondary" onclick="loadBatches()">↻ Refresh</button>
+    </div>
+    <div class="box">
+      <div class="batch-pills" id="batch-pills"></div>
+      <table>
+        <thead><tr><th>Title</th><th>Company</th><th>Location</th><th>Platform</th><th>Link</th></tr></thead>
+        <tbody id="batch-table"><tr><td colspan="5"><div class="empty"><div class="empty-icon">⊞</div><div class="empty-text">No batches yet</div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── RESUMES ────────────────────────────────────────────────────────── -->
+  <div class="page" id="page-resumes">
+    <div class="page-header">
+      <div><div class="page-title">Tailored Resumes</div><div class="page-sub">Generated by Gemini 2.0 Flash — ATS-optimised, 9pt font minimum</div></div>
+    </div>
+    <div class="box">
+      <table>
+        <thead><tr><th>Company</th><th>Role</th><th>Tech</th><th>ATS Score</th><th>Keywords</th><th>Created</th><th>Download</th></tr></thead>
+        <tbody id="res-table"><tr><td colspan="7"><div class="empty"><div class="empty-icon">📄</div><div class="empty-text">No resumes yet</div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── FAILURES ───────────────────────────────────────────────────────── -->
+  <div class="page" id="page-failures">
+    <div class="page-header">
+      <div><div class="page-title">Failure Screenshots</div><div class="page-sub">Captures taken when JD extraction or application submission failed</div></div>
+      <button class="btn btn-secondary" onclick="loadFailures()">↻ Refresh</button>
+    </div>
+    <div class="box">
+      <div class="box-header">
+        <div class="box-title">Screenshots</div>
+        <div class="filters">
+          <button class="filter-btn active" onclick="filterFailures('')">All</button>
+          <button class="filter-btn" onclick="filterFailures('jd')">JD Failures</button>
+          <button class="filter-btn" onclick="filterFailures('app')">App Failures</button>
+        </div>
+      </div>
+      <div class="fail-grid" id="fail-grid"><div class="empty"><div class="empty-icon">✅</div><div class="empty-text">No failures — great!</div></div></div>
+    </div>
+  </div>
+
+  <!-- ── KNOWLEDGE BASE ─────────────────────────────────────────────────── -->
+  <div class="page" id="page-kb">
+    <div class="page-header">
+      <div><div class="page-title">Knowledge Base</div><div class="page-sub">Auto-answers all application form questions</div></div>
+      <button class="btn btn-primary" onclick="saveKB()">💾 Save KB</button>
+    </div>
+    <div class="kb-box"><div class="kb-title">Personal Info</div><div id="kb-personal"></div></div>
+    <div class="kb-box"><div class="kb-title">Application Q&A</div><div id="kb-qa"></div></div>
+  </div>
+
+  <!-- ── RUN LOGS ───────────────────────────────────────────────────────── -->
+  <div class="page" id="page-logs">
+    <div class="page-header">
+      <div><div class="page-title">Run Logs</div><div class="page-sub">Pipeline execution history — each run saved as JSON</div></div>
+      <button class="btn btn-secondary" onclick="loadLogs()">↻ Refresh</button>
+    </div>
+    <div id="logs-cont"></div>
+  </div>
+
+</main>
+
+<!-- ── Run config modal ──────────────────────────────────────────────────── -->
+<div class="modal-bg" id="run-modal">
+  <div class="modal">
+    <div class="modal-title">▶  Configure Pipeline Run</div>
+    <div class="opt-row"><div class="opt-label">Batch size</div><input class="opt-input" id="opt-batch" type="number" value="20" min="5" max="50"></div>
+    <div class="opt-row"><div class="opt-label">Cooldown (minutes)</div><input class="opt-input" id="opt-cooldown" type="number" value="30" min="5" max="120"></div>
+    <div class="opt-row"><div class="opt-label">Dry run (no apply)</div>
+      <select class="opt-input" id="opt-dry">
+        <option value="false">No — submit real applications</option>
+        <option value="true">Yes — simulate only</option>
+      </select>
+    </div>
+    <div style="font-size:11.5px;color:var(--muted);margin-top:4px;padding:8px;background:rgba(47,129,247,.07);border-radius:6px;">
+      Pipeline: Scrape → Batch 1 (JD extract → Tailor → Apply) → wait cooldown → Batch 2 → ...
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeRunModal()">Cancel</button>
+      <button class="btn btn-primary"   onclick="confirmRun()">▶ Start Pipeline</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:5050/api';
+let allApps=[], allJobs=[], allFailures=[], kbData={};
+let currentBatch=1;
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+function goto(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.textContent.trim().toLowerCase().startsWith(page.replace('-',' '))||
+       n.textContent.trim().toLowerCase().includes(page.split('-')[0]))
+      n.classList.add('active');
+  });
+  const loaders={
+    dashboard:refreshStatus, applications:loadApps, interviews:loadInterviews,
+    jobs:loadJobs, batches:loadBatches, resumes:loadResumes,
+    failures:loadFailures, kb:loadKB, logs:loadLogs
+  };
+  if(loaders[page]) loaders[page]();
+}
+
+// ── Status refresh ───────────────────────────────────────────────────────────
+async function refreshStatus(){
+  try{
+    const d=await(await fetch(`${API}/status`)).json();
+    document.getElementById('s-scraped').textContent    = d.total_scraped||0;
+    document.getElementById('s-resumes').textContent    = d.total_resumes||0;
+    document.getElementById('s-applied').textContent    = d.total_applied||0;
+    document.getElementById('s-failed').textContent     = d.total_failed||0;
+    document.getElementById('s-skipped').textContent    = d.total_skipped||0;
+    document.getElementById('s-interviews').textContent = d.total_interviews||0;
+    document.getElementById('nb-interviews').textContent= d.total_interviews||0;
+
+    const dot=document.getElementById('gdot');
+    const gs =document.getElementById('gstatus');
+    const runbtn=document.getElementById('runbtn');
+    const stopbtn=document.getElementById('stopbtn');
+
+    // Stage steps
+    const stages=['scraping','extracting','tailoring','applying','cooldown'];
+    stages.forEach(s=>{
+      const el=document.getElementById('ss-'+s);
+      if(!el) return;
+      el.className='stage-step'+(d.stage===s?' active':d.stage==='done'?' done':'');
+    });
+
+    if(d.pipeline_running){
+      dot.className = d.stage==='cooldown' ? 'dot cooldown' : 'dot running';
+      gs.textContent  = d.stage==='cooldown' ? `Cooldown…` : `Running`;
+      document.getElementById('pb-title').textContent =
+        d.stage==='cooldown' ? `⏸ Cooldown — next batch in ~${getCooldownText()}` :
+        `⟳ ${capitalize(d.stage)}…`;
+      document.getElementById('pb-prog').style.width = (d.stage_progress||30)+'%';
+      document.getElementById('batch-info').textContent =
+        d.batch_total>0 ? `Batch ${d.batch_current}/${d.batch_total}` : '';
+      runbtn.disabled=true; runbtn.textContent='⟳ Running…';
+      stopbtn.style.display='';
+    } else {
+      dot.className='dot idle'; gs.textContent='Idle';
+      document.getElementById('pb-title').textContent='Pipeline Ready';
+      document.getElementById('pb-prog').style.width='0%';
+      document.getElementById('batch-info').textContent=
+        d.last_run_id ? `Last run: ${d.last_run_id}` : '';
+      runbtn.disabled=false; runbtn.textContent='▶ Run Pipeline';
+      stopbtn.style.display='none';
+      stages.forEach(s=>{
+        const el=document.getElementById('ss-'+s);
+        if(el) el.className='stage-step';
+      });
+    }
+
+    if(d.last_error){
+      document.getElementById('pb-sub').textContent='⚠ '+d.last_error;
+    } else {
+      document.getElementById('pb-sub').textContent=
+        'Gemini tailors resumes → Playwright applies → Email report sent';
+    }
+
+    loadRecentApps();
+  } catch(err){ showOffline(); }
+}
+
+function showOffline(){
+  document.getElementById('pb-title').textContent='⚠ Backend offline';
+  document.getElementById('pb-sub').textContent='Start: python dashboard/app.py  then refresh';
+}
+function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function getCooldownText(){ return '~30 min'; }
+
+// ── Run modal ────────────────────────────────────────────────────────────────
+function openRunModal(){ document.getElementById('run-modal').classList.add('open'); }
+function closeRunModal(){ document.getElementById('run-modal').classList.remove('open'); }
+async function confirmRun(){
+  closeRunModal();
+  const dryRaw = document.getElementById('opt-dry').value;
+  const dry    = dryRaw === 'true';
+  const batch  = parseInt(document.getElementById('opt-batch').value)||20;
+  const cool   = parseFloat(document.getElementById('opt-cooldown').value)||30;
+  try{
+    const r=await fetch(`${API}/pipeline/start`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({dry_run:dry,batch_size:batch,cooldown_minutes:cool})
+    });
+    const data=await r.json();
+    if(data.status==='started'){ setTimeout(refreshStatus,1500); }
+    else alert(data.message||'Could not start pipeline');
+  } catch(err){ alert('Backend not running. Start: python dashboard/app.py'); }
+}
+async function runPipeline(dry){
+  document.getElementById('opt-dry').value = dry ? 'true' : 'false';
+  if(dry){
+    // dry run: start directly without modal
+    try{
+      await fetch(`${API}/pipeline/start`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dry_run:true})});
+      setTimeout(refreshStatus,1500);
+    } catch(err){ alert('Backend not running'); }
+  } else {
+    openRunModal();
+  }
+}
+async function stopPipeline(){
+  try{
+    await fetch(`${API}/pipeline/stop`,{method:'POST'});
+    alert('Stop requested — pipeline will halt after current batch completes.');
+    setTimeout(refreshStatus,2000);
+  } catch(err){ alert('Backend not running'); }
+}
+
+// ── Recent apps on dashboard ─────────────────────────────────────────────────
+async function loadRecentApps(){
+  try{
+    const d=await(await fetch(`${API}/applications?per_page=6`)).json();
+    const apps=d.applications||[];
+    const tb=document.getElementById('recent-apps');
+    if(!apps.length){ tb.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="empty-icon">📭</div><div class="empty-text">No applications yet — run the pipeline!</div></div></td></tr>`; return; }
+    tb.innerHTML=apps.map(a=>`<tr>
+      <td><b>${e(a.company)}</b></td>
+      <td>${e(a.title)}</td>
+      <td style="color:var(--green);font-size:11.5px;">${e(a.salary||'Not disclosed')}</td>
+      <td style="color:var(--muted);font-size:11.5px;">${e(a.location||'—')}</td>
+      <td><span class="pf-badge pf-${pf(a.platform)}">${e(a.platform)}</span></td>
+      <td>${sb(a.status)}</td>
+      <td style="color:var(--muted);font-size:10.5px;font-family:var(--mono);">${ft(a.applied_at)}</td>
+    </tr>`).join('');
+  } catch(ex){}
+}
+
+// ── Applications page ────────────────────────────────────────────────────────
+async function loadApps(){
+  try{
+    const d=await(await fetch(`${API}/applications?per_page=200`)).json();
+    allApps=d.applications||[];
+    renderApps(allApps);
+  } catch(ex){ document.getElementById('all-apps').innerHTML=emptyRow(8,'Backend offline'); }
+}
+function filterApps(status){
+  document.querySelectorAll('#page-applications .filter-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase().replace(' ','_')===(status||'all')||(!status&&b.textContent.trim()==='All')));
+  renderApps(status?allApps.filter(a=>a.status===status):allApps);
+}
+function renderApps(apps){
+  const tb=document.getElementById('all-apps');
+  if(!apps.length){ tb.innerHTML=emptyRow(8,'No applications'); return; }
+  tb.innerHTML=apps.map(a=>`<tr>
+    <td><b>${e(a.company)}</b></td>
+    <td>${e(a.title)}</td>
+    <td style="color:var(--green);font-size:11.5px;">${e(a.salary||'Not disclosed')}</td>
+    <td><span class="pf-badge pf-${pf(a.platform)}">${e(a.platform)}</span></td>
+    <td>${sb(a.status)}</td>
+    <td>${respBadge(a.response_status)}</td>
+    <td style="color:var(--muted);font-size:10.5px;font-family:var(--mono);">${ft(a.applied_at)}</td>
+    <td><a href="${e(a.url)}" target="_blank" style="color:var(--a2);font-size:11px;">↗</a></td>
+  </tr>`).join('');
+}
+
+// ── Interview Tracker ────────────────────────────────────────────────────────
+async function loadInterviews(){
+  try{
+    // Load stats
+    const s=await(await fetch(`${API}/interview-stats`)).json();
+    document.getElementById('is-applied').textContent    = s.total_applied||0;
+    document.getElementById('is-interviews').textContent = s.total_interviews||0;
+    document.getElementById('is-rejections').textContent = s.total_rejections||0;
+    document.getElementById('is-pending').textContent    = s.total_pending||0;
+    document.getElementById('is-rate').textContent       = (s.overall_rate||0)+'%';
+
+    // Platform breakdown
+    const bp=s.by_platform||{};
+    const bpKeys=Object.keys(bp);
+    if(bpKeys.length>0){
+      document.getElementById('platform-breakdown-box').style.display='';
+      document.getElementById('platform-breakdown').innerHTML=bpKeys.map(pname=>`<tr>
+        <td><span class="pf-badge pf-${pf(pname)}">${e(pname)}</span></td>
+        <td style="font-family:var(--mono)">${bp[pname].applied}</td>
+        <td style="color:var(--green);font-family:var(--mono)">${bp[pname].interviews}</td>
+        <td style="color:var(--red);font-family:var(--mono)">${bp[pname].rejections}</td>
+        <td>
+          <div class="score-row">
+            <div class="score-bar"><div class="score-fill" style="width:${bp[pname].interview_rate}%;background:${scoreColor(bp[pname].interview_rate)};"></div></div>
+            <span class="score-val">${bp[pname].interview_rate}%</span>
+          </div>
+        </td>
+      </tr>`).join('');
+    }
+
+    // Load applications for tracking
+    const d=await(await fetch(`${API}/applications?status=applied&per_page=200`)).json();
+    const apps=d.applications||[];
+    const tb=document.getElementById('interview-table');
+    if(!apps.length){ tb.innerHTML=emptyRow(5,'No applied jobs yet'); return; }
+    tb.innerHTML=apps.map(a=>`<tr>
+      <td><b>${e(a.company)}</b></td>
+      <td>${e(a.title)}</td>
+      <td><span class="pf-badge pf-${pf(a.platform)}">${e(a.platform)}</span></td>
+      <td style="color:var(--muted);font-size:10.5px;font-family:var(--mono);">${ft(a.applied_at)}</td>
+      <td>
+        <select class="resp-select" data-url="${e(a.url)}" onchange="updateResponse(this)">
+          <option value="pending"        ${(a.response_status||'pending')==='pending'        ?'selected':''}>⏳ Pending</option>
+          <option value="interview_call" ${(a.response_status||'')==='interview_call'        ?'selected':''}>📞 Interview Call!</option>
+          <option value="rejection"      ${(a.response_status||'')==='rejection'             ?'selected':''}>✗ Rejection</option>
+          <option value="no_response"    ${(a.response_status||'')==='no_response'           ?'selected':''}>— No Response</option>
+        </select>
+      </td>
+    </tr>`).join('');
+  } catch(ex){ document.getElementById('interview-table').innerHTML=emptyRow(5,'Backend offline'); }
+}
+
+async function updateResponse(sel){
+  const url  = sel.dataset.url;
+  const resp = sel.value;
+  try{
+    await fetch(`${API}/applications/response`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url, response_status:resp})
+    });
+    // Refresh interview stats in background
+    setTimeout(loadInterviews, 500);
+    setTimeout(refreshStatus,  800);
+  } catch(ex){ alert('Backend offline'); }
+}
+
+// ── Jobs page ────────────────────────────────────────────────────────────────
+async function loadJobs(){
+  try{
+    const d=await(await fetch(`${API}/jobs`)).json();
+    allJobs=d.jobs||[];
+    const ts=d.timestamp?`Scraped: ${ft(d.timestamp)} | ${d.batches||1} batch(es) | ${allJobs.length} jobs`:'Run pipeline to scrape jobs';
+    document.getElementById('jobs-ts').textContent=ts;
+    renderJobs(allJobs);
+  } catch(ex){ document.getElementById('jobs-table').innerHTML=emptyRow(6,'Backend offline'); }
+}
+function filterJobs(pf_val){
+  document.querySelectorAll('#page-jobs .filter-btn').forEach(b=>b.classList.toggle('active',b.textContent===(pf_val||'All')));
+  renderJobs(pf_val?allJobs.filter(j=>j.platform===pf_val):allJobs);
+}
+function renderJobs(jobs){
+  const tb=document.getElementById('jobs-table');
+  if(!jobs.length){ tb.innerHTML=emptyRow(6,'No jobs found'); return; }
+  tb.innerHTML=jobs.map(j=>`<tr>
+    <td><b>${e(j.title)}</b></td>
+    <td>${e(j.company)}</td>
+    <td style="color:var(--muted);font-size:11.5px;">${e(j.location||'—')}</td>
+    <td style="color:var(--green);font-size:11.5px;">${e(j.salary||'Not disclosed')}</td>
+    <td><span class="pf-badge pf-${pf(j.platform)}">${e(j.platform)}</span></td>
+    <td><a href="${e(j.url)}" target="_blank" style="color:var(--a2);font-size:11px;">↗</a></td>
+  </tr>`).join('');
+}
+
+// ── Batches page ─────────────────────────────────────────────────────────────
+async function loadBatches(){
+  try{
+    const d=await(await fetch(`${API}/batches`)).json();
+    const batches=d.batches||[];
+    const pills=document.getElementById('batch-pills');
+    if(!batches.length){ pills.innerHTML='<div style="color:var(--muted);font-size:12px;">No batches yet — run pipeline first</div>'; return; }
+    pills.innerHTML=batches.map(b=>`
+      <button class="batch-pill${b.batch_number===currentBatch?' active':''}"
+        onclick="selectBatch(${b.batch_number})">
+        Batch ${b.batch_number} (${b.job_count})
+      </button>`).join('');
+    selectBatch(batches[0].batch_number);
+  } catch(ex){ document.getElementById('batch-table').innerHTML=emptyRow(5,'Backend offline'); }
+}
+async function selectBatch(num){
+  currentBatch=num;
+  document.querySelectorAll('.batch-pill').forEach(p=>p.classList.toggle('active',p.textContent.includes('Batch '+num)));
+  try{
+    const d=await(await fetch(`${API}/batches/${num}`)).json();
+    const jobs=d.jobs||[];
+    document.getElementById('batch-table').innerHTML=jobs.length?jobs.map(j=>`<tr>
+      <td><b>${e(j.title)}</b></td>
+      <td>${e(j.company)}</td>
+      <td style="color:var(--muted);font-size:11.5px;">${e(j.location||'—')}</td>
+      <td><span class="pf-badge pf-${pf(j.platform)}">${e(j.platform)}</span></td>
+      <td><a href="${e(j.url)}" target="_blank" style="color:var(--a2);font-size:11px;">↗</a></td>
+    </tr>`).join(''):emptyRow(5,'Empty batch');
+  } catch(ex){}
+}
+
+// ── Resumes page ─────────────────────────────────────────────────────────────
+async function loadResumes(){
+  try{
+    const d=await(await fetch(`${API}/resumes`)).json();
+    const tb=document.getElementById('res-table');
+    const res=d.resumes||[];
+    if(!res.length){ tb.innerHTML=emptyRow(7,'No resumes yet'); return; }
+    tb.innerHTML=res.map(r=>`<tr>
+      <td><b>${e(r.company)}</b></td>
+      <td>${e(r.title)}</td>
+      <td><span class="badge b-blue" style="font-size:9px;">${e(r.primary_tech||'general')}</span></td>
+      <td><div class="score-row"><div class="score-bar"><div class="score-fill" style="width:${r.match_score||0}%;background:${scoreColor(r.match_score)};"></div></div><span class="score-val">${Math.round(r.match_score||0)}%</span></div></td>
+      <td>${(r.ats_keywords||[]).slice(0,4).map(k=>`<span class="chip">${e(k)}</span>`).join('')}${(r.ats_keywords||[]).length>4?`<span class="chip">+${r.ats_keywords.length-4}</span>`:''}</td>
+      <td style="color:var(--muted);font-size:10.5px;font-family:var(--mono);">${ft(r.created_at)}</td>
+      <td><a href="${API}/resumes/download/${e(r.filename)}" style="color:var(--a2);font-size:11px;">⬇ PDF</a></td>
+    </tr>`).join('');
+  } catch(ex){ document.getElementById('res-table').innerHTML=emptyRow(7,'Backend offline'); }
+}
+
+// ── Failures page ────────────────────────────────────────────────────────────
+async function loadFailures(){
+  try{
+    const d=await(await fetch(`${API}/failures`)).json();
+    allFailures=d.failures||[];
+    renderFailures(allFailures);
+  } catch(ex){ document.getElementById('fail-grid').innerHTML='<div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Backend offline</div></div>'; }
+}
+function filterFailures(type){
+  document.querySelectorAll('#page-failures .filter-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase().replace(' failures','').replace(' ','_')===(type||'all')||(!type&&b.textContent.trim()==='All')));
+  renderFailures(type?allFailures.filter(f=>f.type===type):allFailures);
+}
+function renderFailures(fails){
+  const g=document.getElementById('fail-grid');
+  if(!fails.length){ g.innerHTML='<div class="empty"><div class="empty-icon">✅</div><div class="empty-text">No failures recorded</div></div>'; return; }
+  g.innerHTML=fails.map(f=>`
+    <div class="fail-card">
+      <img src="${API}/failures/image/${e(f.name)}" alt="${e(f.name)}" loading="lazy" onerror="this.style.display='none'">
+      <div class="fail-card-info">
+        <span class="badge ${f.type==='jd'?'b-yellow':'b-red'}">${f.type.toUpperCase()}</span>
+        <span style="margin-left:6px;">${e(f.name.split('_').slice(0,-1).join(' '))}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── KB page ──────────────────────────────────────────────────────────────────
+async function loadKB(){
+  try{
+    kbData=await(await fetch(`${API}/personal-kb`)).json();
+    const renderSec=(obj,id)=>{
+      document.getElementById(id).innerHTML=Object.entries(obj||{}).map(([k,v])=>`
+        <div class="kb-row">
+          <div class="kb-key">${e(k)}</div>
+          <input class="kb-input" data-key="${e(k)}" data-sec="${id}" value="${e(String(v||''))}"/>
+        </div>`).join('');
+    };
+    renderSec(kbData.personal_info||{},'kb-personal');
+    renderSec(kbData.application_qa||{},'kb-qa');
+  } catch(ex){ document.getElementById('kb-personal').innerHTML='<p style="color:var(--muted);font-size:13px;">Backend offline</p>'; }
+}
+async function saveKB(){
+  document.querySelectorAll('.kb-input').forEach(inp=>{
+    const sec=inp.dataset.sec, key=inp.dataset.key;
+    if(!kbData.personal_info) kbData.personal_info={};
+    if(!kbData.application_qa) kbData.application_qa={};
+    if(sec==='kb-personal') kbData.personal_info[key]=inp.value;
+    if(sec==='kb-qa')       kbData.application_qa[key]=inp.value;
+  });
+  try{
+    await fetch(`${API}/personal-kb`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(kbData)});
+    alert('✅ Knowledge Base saved!');
+  } catch(ex){ alert('Backend offline'); }
+}
+
+// ── Logs page ────────────────────────────────────────────────────────────────
+async function loadLogs(){
+  try{
+    const d=await(await fetch(`${API}/runs`)).json();
+    const cont=document.getElementById('logs-cont');
+    if(!d.runs.length){ cont.innerHTML=`<div class="empty"><div class="empty-icon">▣</div><div class="empty-text">No runs yet</div></div>`; return; }
+    cont.innerHTML=d.runs.map(r=>`
+      <div class="box" style="margin-bottom:14px;">
+        <div class="box-header">
+          <div style="font-family:var(--mono);font-size:12px;font-weight:600;">RUN ${r.run_id||'?'} ${r.dry_run?'<span class="badge b-yellow">DRY RUN</span>':''}</div>
+          <div style="font-size:10.5px;color:var(--muted);">${ft(r.started_at)} → ${ft(r.completed_at)}</div>
+        </div>
+        <div style="padding:16px 18px;">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+            ${[['Scraped',r.scraped,'blue'],['Resumes',r.total_tailored,''],['Applied',r.total_applied,'green'],['Failed',r.total_failed,'red']].map(([l,v,c])=>`
+            <div style="background:var(--s2);border-radius:7px;padding:8px 16px;min-width:80px;">
+              <div style="font-size:22px;font-weight:700;font-family:var(--mono);${c?'color:var(--'+c+')':''}">${v||0}</div>
+              <div style="font-size:10px;color:var(--muted);">${l}</div>
+            </div>`).join('')}
+          </div>
+          ${(r.batches||[]).length>0?`
+          <div style="margin-bottom:12px;">
+            <div style="font-size:10px;font-family:var(--mono);color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Batch breakdown</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              ${r.batches.map(b=>`<div style="background:var(--s3);border-radius:6px;padding:6px 10px;font-size:10.5px;font-family:var(--mono);">
+                <b>B${b.batch}</b>: ${b.extracted}↓ ${b.tailored}✎ ${b.applied}✓ ${b.failed}✗
+              </div>`).join('')}
+            </div>
+          </div>`:''}
+          ${r.error?`<div style="color:var(--red);font-size:12px;font-family:var(--mono);background:rgba(248,81,73,.07);padding:8px 12px;border-radius:6px;">⚠ ${e(r.error)}</div>`:''}
+        </div>
+      </div>`).join('');
+  } catch(ex){ document.getElementById('logs-cont').innerHTML=`<div class="empty"><div class="empty-icon">⚠</div><div class="empty-text">Backend offline</div></div>`; }
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function e(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function ft(ts){ if(!ts) return '—'; const d=new Date(ts); return isNaN(d)?ts:d.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}); }
+function pf(p){ return (p||'').toLowerCase().replace(/\s+/g,''); }
+function sb(st){
+  const m={applied:'b-green',failed:'b-red',skipped_duplicate:'b-yellow',reused:'b-purple',tailored:'b-blue',needs_login:'b-orange'};
+  return `<span class="badge ${m[st]||'b-gray'}">${e(st||'unknown')}</span>`;
+}
+function respBadge(rs){
+  if(!rs||rs==='pending') return '<span class="badge b-gray">pending</span>';
+  if(rs==='interview_call') return '<span class="badge b-green">📞 call!</span>';
+  if(rs==='rejection')      return '<span class="badge b-red">rejected</span>';
+  if(rs==='no_response')    return '<span class="badge b-yellow">no resp.</span>';
+  return `<span class="badge b-gray">${e(rs)}</span>`;
+}
+function scoreColor(s){ return s>=80?'var(--green)':s>=50?'var(--yellow)':'var(--red)'; }
+function emptyRow(cols,msg){ return `<tr><td colspan="${cols}"><div class="empty"><div class="empty-icon">📭</div><div class="empty-text">${msg}</div></div></td></tr>`; }
+
+// Close modal on bg click
+document.getElementById('run-modal').addEventListener('click', function(e){ if(e.target===this) closeRunModal(); });
+
+// ── Boot ─────────────────────────────────────────────────────────────────────
+refreshStatus();
+setInterval(refreshStatus, 10000);
+</script>
+</body>
+</html>

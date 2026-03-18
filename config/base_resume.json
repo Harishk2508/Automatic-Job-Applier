@@ -1,0 +1,80 @@
+{
+  "header": {
+    "name": "HARISH K",
+    "title": "Software Engineer | Backend Systems | AI Integration",
+    "phone": "+91-7558-152-169",
+    "email": "harishknlpengineer25@gmail.com",
+    "linkedin": "linkedin.com/in/harish-kumar-kingston-pydev",
+    "github": "github.com/Harishk2508",
+    "leetcode": "leetcode.com/u/harishk2514 | 800+ problems solved | Top 15% Globally",
+    "portfolio": "harishk-ml-engineer.netlify.app"
+  },
+  "summary": "Computer Science graduate (CGPA 8.6) with production experience building scalable REST APIs, microservices and AI-integrated backend systems using Python, FastAPI and Flask. Hands-on with Docker, Jenkins-based CI/CD pipelines, MySQL and MongoDB. Strong foundation in Data Structures and Algorithms with 800+ LeetCode problems solved (Top 15% globally).",
+  "skills": {
+    "Languages": "Python, Java, SQL",
+    "Backend and APIs": "FastAPI, Flask, Spring Boot (basics), REST APIs, Microservices, MVC, JWT Authentication, WebSockets",
+    "Databases": "MySQL, MongoDB, Indexing, Query Optimization, Redis (basics)",
+    "DevOps and Tools": "Docker, Jenkins, Git, GitHub, AWS (EC2, S3 basics), Kafka (basics), Postman, Swagger",
+    "Core CS": "Data Structures and Algorithms, OOP, Operating Systems, Computer Networks, SDLC, Agile, System Design (basics)",
+    "AI / ML": "LLM Fine-Tuning (LoRA / Unsloth), Transformers, RAG (basics), MLOps concepts, OpenCV, MediaPipe, Hugging Face"
+  },
+  "experience": [
+    {
+      "title": "Tech Trainee Intern \u2192 Software Engineer",
+      "company": "ZeAI Soft",
+      "duration": "Oct 2025 \u2013 Present",
+      "subtitle": "Learning Management System \u2013 Full Stack Product Development",
+      "bullets": [
+        "To serve concurrent teacher-student workflows across LMS modules with zero downtime, 10+ production-grade REST API endpoints were architected using Python (Flask) and Microservices, achieving 99%+ uptime across all deployed modules.",
+        "To prevent unauthorised access to protected resources, JWT-based authentication and Role-Based Access Control (RBAC) were integrated across all API routes, with endpoint validation and API documentation done via Postman and Swagger.",
+        "To proactively identify students at academic risk, a Logistic Regression classifier (95% accuracy) was built to score performance based on assessments and engagement, with automated alerts pushed via in-app notifications backed by MySQL.",
+        "To ensure consistent, regression-free deployments across the LMS platform, Jenkins and GitHub-based CI/CD pipelines were set up to automate build, test, and deployment cycles reducing manual deployment effort by 70%.",
+        "To improve frontend reliability and user experience, responsive UI components were developed and integrated with backend APIs, enabling real-time data sync and smooth interaction across student, teacher, and admin dashboards."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Indian PII Detection and Redaction Web App",
+      "duration": "Nov 2024 \u2013 Feb 2025",
+      "tech": "Python | FastAPI | RoBERTa NER | Regex | Docker",
+      "bullets": [
+        "Problem: users unknowingly leak sensitive Indian PII (Aadhaar, PAN, Passport, GSTIN, IFSC) into external AI tools. Solution: a real-time detection-and-redaction pipeline was built to sanitise input at the point of entry, with zero data persistence.",
+        "Detection, validation, and redaction were separated into three independent modules using a pre-trained RoBERTa NER model combined with per-entity regex rules, enabling new PII types to be added without modifying existing logic or retraining.",
+        "Exposed via a FastAPI REST endpoint (Swagger auto-docs at /docs) and containerised with Docker for portable, environment-consistent deployment across development and production environments."
+      ]
+    },
+    {
+      "name": "Real-Time Multiplayer Yoga Pose Analyzer",
+      "duration": "Aug 2025 \u2013 Sep 2025",
+      "tech": "Python | FastAPI | WebSockets | OpenCV | MediaPipe | Docker",
+      "bullets": [
+        "Challenge: evaluate yoga pose accuracy in real-time for two simultaneous users without expensive CNN training. Solution: a WebSocket-driven multiplayer system was implemented using geometric inference via MediaPipe joint landmarks.",
+        "95%+ pose similarity accuracy across 50+ asanas was achieved through keypoint normalisation and vector-based joint angle comparison, reducing compute overhead by 80% over CNN-based approaches while supporting concurrent sessions.",
+        "Engineered modular FastAPI backend with OpenCV-powered real-time pose processing and multiplayer support, enabling seamless quiz and practice sessions for up to 4 concurrent participants with Docker-based deployment."
+      ]
+    },
+    {
+      "name": "Medical AI Chat System \u2013 LLM Fine-Tuning",
+      "duration": "Aug 2024 \u2013 Nov 2024",
+      "tech": "Python | LLaMA 3.2 (3B) | Unsloth | LoRA | Hugging Face",
+      "bullets": [
+        "Challenge: adapt a general LLM for medical Q&A without full fine-tuning cost. LLaMA 3.2 (3B) was fine-tuned on ~100K real doctor-patient conversations using LoRA via Unsloth, cutting GPU memory by ~60% vs full fine-tuning.",
+        "Post-training evaluation on held-out medical questions showed a 25% improvement in domain-specific relevance and factual accuracy, validated through automated metrics and manual review on diverse medical specialties.",
+        "Implemented hyperparameter tuning (learning rate scheduling, batch optimization, warmup steps) and mixed precision training on free-tier Google Colab T4 instances, enabling large-scale fine-tuning within constrained resources."
+      ]
+    }
+  ],
+  "education": {
+    "degree": "B.E. Computer Science and Engineering",
+    "institution": "Kingston Engineering College, Vellore, Tamil Nadu",
+    "duration": "Nov 2021 \u2013 May 2025",
+    "cgpa": "8.6 / 10.0 | No Active Backlogs"
+  },
+  "achievements": [
+    "LeetCode: 800+ problems solved | Top 15% Globally \u2014 strong in Trees, Graphs, Dynamic Programming and Arrays.",
+    "Hackathon: 3rd Place at AsanaVision Hackathon, VIT Gravitas (Sep 2024) among 50+ teams.",
+    "Won 10+ awards across coding contests, technical presentations and algorithm challenges at inter-college symposiums.",
+    "Self-taught Docker, AWS (EC2/S3), and Kubernetes fundamentals through hands-on labs and personal projects alongside full-time academic coursework."
+  ]
+}

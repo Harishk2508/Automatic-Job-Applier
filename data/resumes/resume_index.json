@@ -1,0 +1,41 @@
+{
+  "17e780079b7c": {
+    "pdf_path": "data\\resumes\\Test_Company_20260318.pdf",
+    "company": "Test Company",
+    "title": "Python Backend Developer",
+    "skills_matched": [
+      "Python",
+      "FastAPI",
+      "REST APIs",
+      "Docker",
+      "CI/CD pipelines",
+      "MySQL",
+      "AWS",
+      "Git",
+      "SQL"
+    ],
+    "match_score": 92,
+    "ats_keywords": [
+      "Python",
+      "FastAPI",
+      "REST APIs",
+      "Docker",
+      "CI/CD pipelines",
+      "MySQL",
+      "AWS",
+      "Git",
+      "SQL",
+      "Machine Learning (ML)",
+      "Artificial Intelligence (AI)",
+      "Natural Language Processing (NLP)",
+      "Deep Learning",
+      "Transformers",
+      "Containerization",
+      "Cloud Infrastructure",
+      "Software Development Life Cycle (SDLC)",
+      "Agile",
+      "Continuous Integration/Continuous Deployment (CI/CD)"
+    ],
+    "created_at": "2026-03-18T11:34:32.761140"
+  }
+}
